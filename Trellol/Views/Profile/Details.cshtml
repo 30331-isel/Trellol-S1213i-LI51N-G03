@@ -1,0 +1,36 @@
+﻿@using Trellol.HtmlHelpers
+@model EntitiesLogic.Entities.User
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details.</h2>
+
+<fieldset>
+    <legend>User</legend>
+
+    <div class="display-label">@Html.DisplayNameFor(model => model.ImageProfile)</div>
+    <div class="display-field">
+        @Html.DisplayImage(Model, Url.Action("GetImage", "Profile", new { id = Model.Username }))
+    </div>
+
+    <div class="display-label">@Html.DisplayNameFor(model => model.Username)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Username)
+    </div>
+
+    <div class="display-label">@Html.DisplayNameFor(model => model.Name)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Username)
+    </div>
+
+    <div class="display-label">@Html.DisplayNameFor(model => model.Email)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Username })
+</p>

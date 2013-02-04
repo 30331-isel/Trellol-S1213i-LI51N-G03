@@ -1,0 +1,72 @@
+﻿@using Trellol.HtmlHelpers
+@model EntitiesLogic.Entities.Card
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Card @Html.DisplayFor(model => model.Name)</legend>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.BoardName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BoardName)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.ListName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ListName)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.isArchived)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.isArchived)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.CreationDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreationDate)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.DueDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DueDate)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Position)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Position)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { cardid=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

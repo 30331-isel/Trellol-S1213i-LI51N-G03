@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title - Trellol</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+        <script src="@Url.Content("/Scripts/jquery-1.8.3.js")" type="text/javascript"></script>
+        <script src="@Url.Content("~/Scripts/modernizr-2.5.3.js")" type="text/javascript"></script>
+        <script src="@Url.Content("~/Scripts/search.js")" type="text/javascript"></script>
+        @RenderSection("head", false)
+        @RenderSection("headLay", false)
+    </head>
+    <body>
+        <header>
+            <div class="content-wrapper">
+                <div class="float-right">
+                    <section id="login">
+                        @Html.Partial("_LogOnPartial")
+                    </section>
+                </div>
+                <div>
+                    <p class="site-title">@Html.ActionLink("Trellol", "Index", "Home")</p>
+                    <p class="sub-title">Uma espécie de Trello... mas pior</p>
+                </div>
+
+            </div>
+
+        </header>
+            
+        <nav>
+            <div class="content-wrapper">
+                <ul id="menu">
+                    <li>@Html.ActionLink("Boards", "Index", "Boards")</li>
+                </ul>
+                <input type="text" id="search"/>
+            </div>
+        </nav>
+        <div class="messagepop">
+            <p>Boards</p>
+            <ul id="blist"></ul>
+            <p>Cards</p>
+            <ul id ="clist"></ul>
+        </div>
+
+        <div id="body">
+            @RenderSection("featured", required: false)
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+            </section>
+        </div>
+        <footer>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p>&copy; @DateTime.Now.Year - Trellol</p>
+                </div>
+            </div>
+        </footer>
+
+        @RenderSection("scripts", required: false)
+    </body>
+</html>
+

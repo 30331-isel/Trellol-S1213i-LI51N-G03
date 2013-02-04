@@ -1,0 +1,36 @@
+﻿@model EntitiesLogic.Entities.List
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+@if (ViewBag.ArchivedCards)
+{
+    <h3>This list contains archived cards. If you remove the list, these cards will be deleted.</h3>
+}
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>List</legend>
+
+    <div class="display-label">
+         @Html.LabelFor(model => model.BoardName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BoardName)
+    </div>
+
+    <div class="display-label">
+         @Html.LabelFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+</fieldset>
+@using (Html.BeginForm( new {controller = "Lists", action = ViewBag.Action, listId = Model.Name})) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
