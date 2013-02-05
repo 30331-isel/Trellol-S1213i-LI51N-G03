@@ -82,7 +82,7 @@
     }
 </fieldset>
 <p>
-    @Html.ActionLink("Edit Board", "Edit", new { boardId = Model.Name }) |
+    @Html.ActionLink("Edit Board", "Edit", new { id = Model.Name }) |
     @Html.RouteLink("Add List", "Lists", new { action = "Create", boardId = Model.Name }) |
     @Html.ActionLink("Back to List", "Index", "Boards")
 </p>

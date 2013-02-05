@@ -78,7 +78,7 @@ namespace Trellol.Controllers
                     }
 
                     AppServices.AddBoard(board);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Boards");
                 }
                 catch
                 {

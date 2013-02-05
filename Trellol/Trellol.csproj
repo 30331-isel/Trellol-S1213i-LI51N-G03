@@ -227,13 +227,14 @@
     <Content Include="Views\Lists\Delete.cshtml" />
     <Content Include="Views\Lists\Form.cshtml" />
     <Content Include="Views\Boards\Details.cshtml" />
-    <Content Include="Views\Boards\Form.cshtml" />
     <Content Include="Views\Boards\Index.cshtml" />
     <Content Include="Views\Cards\Form.cshtml" />
     <Content Include="Views\Cards\Details.cshtml" />
     <Content Include="Views\Profile\Details.cshtml" />
     <Content Include="Views\Profile\Edit.cshtml" />
     <Content Include="Views\Account\Delete.cshtml" />
+    <Content Include="Views\Boards\Create.cshtml" />
+    <Content Include="Views\Boards\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
