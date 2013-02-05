@@ -1,18 +1,24 @@
 ﻿
-using Logic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Linq;
-using EntitiesLogic.Entities;
-using System.Web.Mvc;
 using Trellol;
+using System.IO;
+using System.Configuration;
+using Amazon.S3;
+using Amazon.S3.Model;
+using System.Web;
+using System.Drawing;
+using System.Drawing.Imaging;
 
-internal class PresentationUtils
+namespace Trellol
+{
+    public class PresentationUtils
     {
 
-        internal static IEnumerable<CardUrlInfo>  GetCardUrlInfoResults(string search)
+        internal static IEnumerable<CardUrlInfo> GetCardUrlInfoResults(string search)
         {
             var cards = PresentationData.GetCardResults(search, 5);
             return cards.Select(card => new CardUrlInfo
@@ -78,7 +84,7 @@ internal class PresentationUtils
                 },
                 () => vi.valid_chars = null);
 
-                if (all == null) vi.names = null; 
+                if (all == null) vi.names = null;
                 else
                     SetValidation<KeyAttribute>(pi, v =>
                     {
@@ -92,7 +98,7 @@ internal class PresentationUtils
             }
 
             return valInfo;
-            
+
         }
 
         internal class CardUrlInfo
@@ -146,14 +152,96 @@ internal class PresentationUtils
             public Required required { get { return _required; } set { _required = value; } }
             public ValidChars valid_chars { get { return _valid_chars; } set { _valid_chars = value; } }
             public Names names { get { return _names; } set { _names = value; } }
-            
+
         }
 
-        //private static Regex r = new Regex("^[a-zA-Z0-9 ]*$");
+        internal static string UploadProfileImage(HttpPostedFileBase file)
+        {
+            if (file == null)
+                throw new ArgumentNullException("file", "O argumento passado ao método UploadProfileImage não pode ser null");
 
-        //internal static bool ValidateName(string name)
-        //{
-        //    return r.IsMatch(name);
-        //}
+            string bucket = ConfigurationManager.AppSettings["AWSBucketProfileImages"];
+            string imageName = GenerateImageName(file.FileName);
+            Stream stream = resizeImage(file, 150, 150);
+
+            UploadFile(stream, imageName, bucket);
+
+            return imageName;
+
+        }
+
+        public static string GetProfileImageUrl(string imageFileName)
+        {
+            if (imageFileName == null) return "";
+            return GetFileUrl(imageFileName, ConfigurationManager.AppSettings["AWSBucketProfileImages"]);
+        }
+
+        private static string GenerateImageName(string extension)
+        {
+            return Path.GetRandomFileName().Replace(".", "") + Path.GetExtension(extension);
+        }
+
+        private static Stream resizeImage(HttpPostedFileBase file, int maxHeight, int maxWidth)
+        {
+            Image image = Image.FromStream(file.InputStream);
+
+            if (image.Height > maxHeight || image.Width > maxWidth)
+            {
+                var ratioX = (double)maxWidth / image.Width;
+                var ratioY = (double)maxHeight / image.Height;
+                var ratio = Math.Min(ratioX, ratioY);
+
+                var newWidth = (int)(image.Width * ratio);
+                var newHeight = (int)(image.Height * ratio);
+
+                var newImage = new Bitmap(newWidth, newHeight);
+                Graphics.FromImage(newImage).DrawImage(image, 0, 0, newWidth, newHeight);
+
+                Stream resizedStream = new MemoryStream();
+
+                newImage.Save(resizedStream, ImageFormat.Png);
+
+                return resizedStream;
+            }
+
+            return file.InputStream;
+        }
+
+        private static void UploadFile(Stream stream, string key, string bucket)
+        {
+            string AWSAccessKey = ConfigurationManager.AppSettings["AWSAccessKey"];
+            string AWSSecretKey = ConfigurationManager.AppSettings["AWSSecretKey"];
+
+            using (AmazonS3 client = Amazon.AWSClientFactory.CreateAmazonS3Client(AWSAccessKey, AWSSecretKey))
+            {
+                PutObjectRequest request = new PutObjectRequest();
+                request.WithBucketName(bucket);
+                request.WithKey(key);
+                request.WithInputStream(stream);
+                request.AutoCloseStream = true;
+                request.CannedACL = S3CannedACL.PublicRead;
+
+                client.PutObject(request);
+            }
+        }
+
+        private static string GetFileUrl(string key, string bucket)
+        {
+            if (key == null) return "";
+
+            string AWSAccessKey = ConfigurationManager.AppSettings["AWSAccessKey"];
+            string AWSSecretKey = ConfigurationManager.AppSettings["AWSSecretKey"];
+
+            using (AmazonS3 client = Amazon.AWSClientFactory.CreateAmazonS3Client(AWSAccessKey, AWSSecretKey))
+            {
+                GetPreSignedUrlRequest get = new GetPreSignedUrlRequest()
+                    .WithBucketName(bucket)
+                    .WithKey(key)
+                    .WithExpires(DateTime.Now.AddMinutes(30));
+
+                return client.GetPreSignedURL(get);
+            }
+        }
 
     }
+}

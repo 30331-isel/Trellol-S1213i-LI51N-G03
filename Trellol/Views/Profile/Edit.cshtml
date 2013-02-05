@@ -41,7 +41,7 @@
 
         <div class="editor-label">@Html.LabelFor(model => model.ImageProfile)</div>
         <div class="editor-field">
-           @Html.DisplayImage(Model, Url.Action("GetImage", "Profile", new { id = Model.Username }))
+           @Html.DisplayProfileImage(Model)
         <div>@Html.InputImage(Model.isConfirmed)</div>
         </div>
 

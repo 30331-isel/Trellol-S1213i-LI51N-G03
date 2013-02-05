@@ -39,17 +39,19 @@ namespace Trellol.Controllers
                 try
                 {
                     User u = TrellolUserProvider.GetUser(user.Username);
-                    if (image != null)
-                    {
-                        string fileName = String.Format("{0}{1}", user.Username, Path.GetExtension(image.FileName));
+                    //if (image != null)
+                    //{
+                    //    string fileName = String.Format("{0}{1}", user.Username, Path.GetExtension(image.FileName));
 
-                        string filePath = Path.Combine(HttpContext.Server.MapPath("../../Uploads/ProfileImages"),
-                                                        fileName);
-                        image.SaveAs(filePath);
+                    //    string filePath = Path.Combine(HttpContext.Server.MapPath("../../Uploads/ProfileImages"),
+                    //                                    fileName);
+                    //    image.SaveAs(filePath);
 
-                        u.ImageProfile = filePath;
-                        u.ImageMimeType = image.ContentType;
-                    }
+                    //    u.ImageProfile = filePath;
+                    //    u.ImageMimeType = image.ContentType;
+                    //}
+                    u.ImageProfile = PresentationUtils.UploadProfileImage(image);
+
 
                     TrellolUserProvider.UpdateUser(u);
 
@@ -63,17 +65,17 @@ namespace Trellol.Controllers
             return View(user);
         }
 
-        public FilePathResult GetImage(string id)
-        {
-            User user = TrellolUserProvider.GetUser(id);
-            if (user != null)
-            {
-                return File(user.ImageProfile, user.ImageMimeType, "ProfileImage.jpeg");
-            }
-            else
-            {
-                return null;
-            }
-        }
+        //public FilePathResult GetImage(string id)
+        //{
+        //    User user = TrellolUserProvider.GetUser(id);
+        //    if (user != null)
+        //    {
+        //        return File(user.ImageProfile, user.ImageMimeType, "ProfileImage.jpeg");
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //}
     }
 }

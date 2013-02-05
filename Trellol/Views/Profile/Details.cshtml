@@ -12,7 +12,7 @@
 
     <div class="display-label">@Html.DisplayNameFor(model => model.ImageProfile)</div>
     <div class="display-field">
-        @Html.DisplayImage(Model, Url.Action("GetImage", "Profile", new { id = Model.Username }))
+        @Html.DisplayProfileImage(Model)
     </div>
 
     <div class="display-label">@Html.DisplayNameFor(model => model.Username)</div>

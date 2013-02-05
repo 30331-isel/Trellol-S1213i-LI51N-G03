@@ -40,17 +40,17 @@ namespace Trellol.HtmlHelpers
 
         
 
-        public static MvcHtmlString DisplayImage(this HtmlHelper html, User user, string imageUrl)
+        public static MvcHtmlString DisplayProfileImage(this HtmlHelper html, User user)
         {
             
-            if (!user.isConfirmed || user.ImageProfile == null)
+            if (user == null || !user.isConfirmed || user.ImageProfile == null)
                 return MvcHtmlString.Empty;
 
             //    <img width="150" height="150"
             //        src="@Url.Action("GetImage", "Profile", new { id = Model.Username })" />
-            UrlHelper urlHelper = new UrlHelper(html.ViewContext.RequestContext);
-            string url = urlHelper.Action("GetImage", "Profile", new { id = user.Username });
-
+            //UrlHelper urlHelper = new UrlHelper(html.ViewContext.RequestContext);
+            //string url = urlHelper.Action("GetImage", "Profile", new { id = user.Username });
+            string url = Trellol.PresentationUtils.GetProfileImageUrl(user.ImageProfile);
             StringBuilder result = new StringBuilder();
             TagBuilder tag = new TagBuilder("img");
             tag.MergeAttribute("src", url);
