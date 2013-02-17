@@ -85,7 +85,7 @@ namespace Trellol.Controllers
                 User user = new User() { 
                     Username = model.UserName, 
                     Password = model.Password, 
-                    Email = model.Password,
+                    Email = model.Email,
                     isConfirmed = false
                 };
 

@@ -34,10 +34,10 @@ namespace Security
             client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
-            client.Credentials = new System.Net.NetworkCredential("admin", "admin");
+            client.Credentials = new System.Net.NetworkCredential("trellolpi@gmail.com", "trellol123");
             MailMessage message = new MailMessage();
             message.To.Add(user.Email);
-            message.From = new MailAddress(emailFrom/*"trellol@gmail.com"*/);
+            message.From = new MailAddress("trellolpi@gmail.com");
             message.Subject = "[No reply] Serviço automático de validação";
             message.Body = msg;
             client.Send(message);

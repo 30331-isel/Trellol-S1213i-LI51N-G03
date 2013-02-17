@@ -239,6 +239,7 @@
     <Content Include="Views\Boards\Create.cshtml" />
     <Content Include="Views\Boards\Edit.cshtml" />
     <Content Include="Views\Shared\_EditOrCreateBoard.cshtml" />
+    <Content Include="Views\Account\Validate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

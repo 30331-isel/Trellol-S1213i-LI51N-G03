@@ -14,11 +14,12 @@ using System.Web.Script.Serialization;
 
 namespace Trellol.Controllers
 {
+
     public class BoardsController : Controller
     {
         //
         // GET: /Boards/
-
+        [Authentication]
         public ActionResult Index()
         {
             return View(AppServices.GetAllBoards());
@@ -51,9 +52,6 @@ namespace Trellol.Controllers
         // GET: /Boards/Create
         public ActionResult Create()
         {
-            //ViewBag.Title = "Create";
-            //ViewBag.SubTitle = "A New Board";
-            //ViewBag.ButtonText = "Create";
             return View();
         }
 
@@ -62,10 +60,6 @@ namespace Trellol.Controllers
         [HttpPost]
         public ActionResult Create(Board board)
         {
-            //ViewBag.Title = "Create";
-            //ViewBag.SubTitle = "A New Board";
-            //ViewBag.ButtonText = "Create";
-
             if (ModelState.IsValid)
             {
                 try
@@ -74,7 +68,7 @@ namespace Trellol.Controllers
                     {
  
                         ModelState.AddModelError("Name", "There is already a Board with that name");
-                        return View("Form");
+                        return View();
                     }
 
                     AppServices.AddBoard(board);
@@ -82,8 +76,7 @@ namespace Trellol.Controllers
                 }
                 catch
                 {
-                    //TODO
-                    //500 Internal Server Error ??
+                    return View();
                 }
             }
 
@@ -95,9 +88,6 @@ namespace Trellol.Controllers
         //[Authentication(Roles = "Admin")]
         public ActionResult Edit(string id)
         {
-            //ViewBag.Title = "Edit";
-            //ViewBag.SubTitle = String.Format("\"{0}\" Board", boardId);
-            //ViewBag.ButtonText = "Edit";
             return View(AppServices.GetBoard(id));
         }
 
@@ -120,7 +110,6 @@ namespace Trellol.Controllers
                 }
             }
             return View(AppServices.GetBoard(board.Name));
-    
         }
 
         public JsonResult ValidationInfo()
